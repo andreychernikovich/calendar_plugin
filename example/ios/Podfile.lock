@@ -1,0 +1,28 @@
+PODS:
+  - calendar_plugin (0.0.1):
+    - Flutter
+  - device_calendar (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - calendar_plugin (from `.symlinks/plugins/calendar_plugin/ios`)
+  - device_calendar (from `.symlinks/plugins/device_calendar/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  calendar_plugin:
+    :path: ".symlinks/plugins/calendar_plugin/ios"
+  device_calendar:
+    :path: ".symlinks/plugins/device_calendar/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  calendar_plugin: b07bdd5ca217a276d5e090e14bbbab015391bede
+  device_calendar: 23b28a5f1ab3bf77e34542fb1167e1b8b29a98f5
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
+
+COCOAPODS: 1.8.4
