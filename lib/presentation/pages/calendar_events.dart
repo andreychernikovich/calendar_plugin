@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../event_item.dart';
 import 'calendar_event.dart';
@@ -19,12 +20,15 @@ class CalendarEventsPage extends StatefulWidget {
 
 class _CalendarEventsPageState extends State<CalendarEventsPage> {
   final Calendar _calendar;
-  Timer timer;
   BuildContext _scaffoldContext;
 
   DeviceCalendarPlugin _deviceCalendarPlugin;
   List<Event> _calendarEvents;
   bool _isLoading = true;
+
+  static const stream = const EventChannel('calendarChangeEvent/stream');
+  StreamSubscription _timerSubscription = null;
+
 
   _CalendarEventsPageState(this._calendar) {
     _deviceCalendarPlugin = DeviceCalendarPlugin();
@@ -34,13 +38,31 @@ class _CalendarEventsPageState extends State<CalendarEventsPage> {
   initState() {
     super.initState();
     _retrieveCalendarEvents();
-    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => _retrieveCalendarEvents());
+    _enableCalendarEvents();
   }
 
   @override
   void dispose() {
-    timer?.cancel();
+    _disableCalendarEvents();
     super.dispose();
+  }
+
+
+  void _enableCalendarEvents() {
+    if (_timerSubscription == null) {
+      _timerSubscription = stream.receiveBroadcastStream().listen(_updateCalendarEvents);
+    }
+  }
+
+  void _disableCalendarEvents() {
+    if (_timerSubscription != null) {
+      _timerSubscription.cancel();
+      _timerSubscription = null;
+    }
+  }
+
+  void _updateCalendarEvents(event) {
+    _retrieveCalendarEvents();
   }
 
   @override
